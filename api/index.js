@@ -1,26 +1,27 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import { v4 } from 'uuid';
-dotenv.config(); // Include dotenv package to load environment variables
+import bodyParser from "body-parser";
+import dbmain from "../src/config/db.js"
+import employeeRoute from "../src/routes/employee.js"
+import adminRoute from  "../src/routes/admin.js"
+import devRoute from "../src/routes/dev.js"
+
+dotenv.config(); 
+dbmain().then(()=>{ console.log("db connected");}).catch((e)=>{ console.log(e);console.log("db not connected");})
 
 const app = express();
+app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
 });
 
-app.get('/api', (req, res) => {
-  const path = `/api/item/${v4()}`;
-  res.setHeader('Content-Type', 'text/html');
-  res.setHeader('Cache-Control', 's-max-age=1, stale-while-revalidate');
-  res.end(`Hello! Go to item: <a href="${path}">${path}</a>`);
-});
+app.use("/api",devRoute)
+app.use("/api",employeeRoute)
+app.use("/api",adminRoute)
 
-app.get('/api/item/:slug', (req, res) => {
-  const { slug } = req.params;
-  res.end(`Item: ${slug}`);
-});
 
 
 app.listen(port, () => {
