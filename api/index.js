@@ -5,6 +5,7 @@ import dbmain from "../src/config/db.js"
 import employeeRoute from "../src/routes/employee.js"
 import adminRoute from  "../src/routes/admin.js"
 import devRoute from "../src/routes/dev.js"
+import inventoryRoutes from "../src/routes/inventoryRoutes.js"
 
 dotenv.config(); 
 dbmain().then(()=>{ console.log("db connected");}).catch((e)=>{ console.log(e);console.log("db not connected");})
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 app.use("/api",devRoute)
 app.use("/api",employeeRoute)
 app.use("/api",adminRoute)
+app.use("/api",inventoryRoutes)
 
 
 

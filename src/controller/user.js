@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 import Organization from "../models/organization.js";
-
+import Commodity from "../models/commodity.js";
+import MoveIn from "../models/movein.js";
 
 export const adminSignup = async (req, res) => {
     try {
@@ -47,6 +48,51 @@ export const adminSignin = async (req, res) => {
         res.status(500).json({ error: "Something went wrong" });
     }
 }
+
+export const adminAddCommodity = async (req, res) => {
+    try {
+        const { name, category, rate, months, calculateBy } = req.body;
+        if (!name || !category || !rate || !months || !calculateBy) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+        const organization = req.user.organization;
+        const commodity = await Commodity.create({ name, category, rate, months, calculateBy, organization });
+        res.status(201).json({ message: "Commodity added successfully" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Something went wrong" });
+    }
+}
+
+export const adminGetCommodities = async (req, res) => {
+
+    try {
+        const organization = req.user.organization;
+        const commodities = await Commodity.find({ organization });
+        res.status(200).json({ commodities });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Something went wrong" });
+    }
+
+}
+
+export const adminAddParty = async (req, res) => {
+    try {
+        const { name, contact, address } = req.body;
+        if (!name || !contact || !address) {
+            return res.status(400).json({ error: "All fields are required" });
+        }
+        const organization = req.user.organization;
+        const party = await Party.create({ name, contact, address, organization,account});
+        res.status(201).json({ message: "Party added successfully" });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: "Something went wrong" });
+    }
+}
+
+
 
 export  const employeeSignup = async (req, res) => {
     try {
