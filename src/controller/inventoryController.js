@@ -1,6 +1,6 @@
-import moveout from "../models/moveout";
-import movein from "../models/movein";
-import Party from "../models/party";
+import moveout from "../models/moveout.js";
+import movein from "../models/movein.js";
+import Party from "../models/party.js";
 
 export const handleMoveIn = async (req, res) => {
     const {date,organization,party,category,Weight,rate,rent,rentStatus,lotNumber,quantity,remainingQuantity,location,remarks,additionalCharges} = req.body;
