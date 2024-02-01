@@ -3,6 +3,7 @@ import User from "../models/user.js";
 import Organization from "../models/organization.js";
 import Commodity from "../models/commodity.js";
 import MoveIn from "../models/movein.js";
+import Party from "../models/party.js";
 
 export const adminSignup = async (req, res) => {
     try {
@@ -79,20 +80,18 @@ export const adminGetCommodities = async (req, res) => {
 
 export const adminAddParty = async (req, res) => {
     try {
-        const { name, contact, address } = req.body;
-        if (!name || !contact || !address) {
+        const { name, contact, address ,type} = req.body;
+        if (!name || !contact) {
             return res.status(400).json({ error: "All fields are required" });
         }
         const organization = req.user.organization;
-        const party = await Party.create({ name, contact, address, organization,account});
-        res.status(201).json({ message: "Party added successfully" });
+        const party = await Party.create({ name, contact, address,type, organization});
+        res.status(201).json({ message: "Party added successfully" ,party});
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: "Something went wrong" });
     }
 }
-
-
 
 export  const employeeSignup = async (req, res) => {
     try {

@@ -6,14 +6,17 @@ import employeeRoute from "../src/routes/employee.js"
 import adminRoute from  "../src/routes/admin.js"
 import devRoute from "../src/routes/dev.js"
 import inventoryRoutes from "../src/routes/inventoryRoutes.js"
-
+import cors from 'cors'; // Import the cors package
 dotenv.config(); 
 dbmain().then(()=>{ console.log("db connected");}).catch((e)=>{ console.log(e);console.log("db not connected");})
-
 const app = express();
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 3000;
+
+// Enable CORS
+app.use(cors());
+
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
