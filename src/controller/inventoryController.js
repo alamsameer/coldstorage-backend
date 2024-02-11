@@ -24,6 +24,22 @@ export const handleMoveIn = async (req, res) => {
     }
 }
 
+export const getMovedIn = async (req, res) => {
+
+    try {
+
+        // write validation for lot number to be uniQUE FOR  organisation
+        const organization = req.user.organization;
+        console.log({organization});
+        const moveIn = await movein.find({organization});
+        res.status(201).json({message:"list of movedin", moveIn });
+    } catch (error) {
+        console.log(error);
+        console.log({ message: error.message });
+        res.status(409).json({ message:"something went wrong" });
+    }
+}
+
 export const handleMoveOut = async (req, res) => {
     const { moveInId, quantity, date, party } = req.body;
     try {

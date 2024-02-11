@@ -17,6 +17,9 @@ export const verifyAdmin = (req, res, next) => {
         const { _id,role } = payload;
         console.log({ _id,role });
         const user = await User.findById(_id);
+        if(!user){
+          return res.status(404).json({message:"user does not exist"})
+        }
         console.log({user});
         if (user.role !== role) {
             return res.status(401).json({ error: "You must be logged in" });
