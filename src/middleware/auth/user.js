@@ -17,10 +17,10 @@ export const verifyAdmin = (req, res, next) => {
         const { _id,role } = payload;
         console.log({ _id,role });
         const user = await User.findById(_id);
+        console.log({user});
         if(!user){
           return res.status(404).json({message:"user does not exist"})
         }
-        console.log({user});
         if (user.role !== role) {
             return res.status(401).json({ error: "You must be logged in" });
         }
@@ -37,7 +37,7 @@ export const verifyTokenAndRole = (req, res, next) => {
       return res.status(403).json({ error: 'Access denied. Token is required.' });
     }
   
-    jwt.verify(token, secretKey, (err, decoded) => {
+    jwt.verify(token,process.env.JWT_SECRET, (err, decoded) => {
       if (err) {
         return res.status(401).json({ error: 'Invalid token.' });
       }

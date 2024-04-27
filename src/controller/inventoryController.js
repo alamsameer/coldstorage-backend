@@ -30,8 +30,9 @@ export const getMovedIn = async (req, res) => {
 
         // write validation for lot number to be uniQUE FOR  organisation
         const organization = req.user.organization;
-        console.log({organization});
-        const moveIn = await movein.find({organization});
+        // console.log({organization});
+        const moveIn = await movein.find({organization}).populate('party') // Populate the party field;
+        console.log(moveIn);
         res.status(201).json({message:"list of movedin", moveIn });
     } catch (error) {
         console.log(error);

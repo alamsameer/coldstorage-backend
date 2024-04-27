@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const monveInSchema = Schema({
   date: { type: Date, default: Date.now, required: true },
   organization: { type: Schema.Types.ObjectId,ref:"Organization" , required: true },
-  party: { type: Schema.Types.ObjectId, required: true },
+  party: { type: Schema.Types.ObjectId, required: true, ref: "Party"},
   category: { type: String, required: true },
   Weight: { type: Number },
   rate:{type:Number,required:true},
