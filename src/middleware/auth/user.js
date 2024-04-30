@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 export const verifyAdmin = (req, res, next) => {
     const token = req.headers['authorization'];
     console.log(token);
-  
     if (!token) {
       return res.status(403).json({ error: 'Access denied. Token is required.' });
     }
@@ -15,6 +14,7 @@ export const verifyAdmin = (req, res, next) => {
             return res.status(401).json({ error: "error while verifying token" });
         }
         const { _id,role } = payload;
+        console.log("payload",payload);
         console.log({ _id,role });
         const user = await User.findById(_id);
         console.log({user});
@@ -43,7 +43,7 @@ export const verifyTokenAndRole = (req, res, next) => {
       }
   
       const { role } = decoded;
-  
+      console.log("decoded",decoded);
       if (role !== 'admin' && role !== 'employee') {
         return res.status(403).json({ error: 'Access denied.' });
       }

@@ -32,12 +32,23 @@ export const getMovedIn = async (req, res) => {
         const organization = req.user.organization;
         // console.log({organization});
         const moveIn = await movein.find({organization}).populate('party') // Populate the party field;
-        console.log(moveIn);
         res.status(201).json({message:"list of movedin", moveIn });
     } catch (error) {
         console.log(error);
         console.log({ message: error.message });
         res.status(409).json({ message:"something went wrong" });
+    }
+}
+
+export const getRecentMovedIn = async (req, res) => {
+    try {
+        const organization = req.user.organization;
+        const moveIn = await movein.find({organization}).sort({ createdAt: -1 }).limit(1).populate('party');
+        res.status(201).json({ message: "Recent moved in", moveIn });
+    } catch (error) {
+        console.log(error);
+        console.log({ message: error.message });
+        res.status(409).json({ message: "something went wrong" });
     }
 }
 
@@ -79,5 +90,29 @@ export const handleMoveOut = async (req, res) => {
     } catch (error) {
         console.log({ message: error.message });
         res.status(409).json({ message: "Something went wrong" });
+    }
+}
+
+export const getMovedOut = async (req, res) => {
+    try {
+        const organization = req.user.organization;
+        const moveOut = await moveout.find({ organization }).populate('party');
+        res.status(201).json({ message: "list of movedout", moveOut });
+    } catch (error) {
+        console.log(error);
+        console.log({ message: error.message });
+        res.status(409).json({ message: "something went wrong" });
+    }
+}
+
+export const getRecentMovedOut = async (req, res) => {
+    try {
+        const organization = req.user.organization;
+        const moveOut = await moveout.find({ organization }).sort({ createdAt: -1 }).limit(5).populate('party');
+        res.status(201).json({ message: "Recent moved out", moveOut });
+    } catch (error) {
+        console.log(error);
+        console.log({ message: error.message });
+        res.status(409).json({ message: "something went wrong" });
     }
 }

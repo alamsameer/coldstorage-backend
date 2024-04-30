@@ -85,6 +85,7 @@ export const adminAddParty = async (req, res) => {
             return res.status(400).json({ error: "All fields are required" });
         }
         const organization = req.user.organization;
+        console.log("organization",organization);
         const party = await Party.create({ name, contact, address,type, organization});
         res.status(201).json({ message: "Party added successfully" ,party});
     } catch (error) {
